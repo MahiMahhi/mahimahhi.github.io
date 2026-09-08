@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Damian 🎉</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      overflow: hidden;
+      perspective: 1200px;
+    }
+
+    .instructions {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+      transition: opacity 0.4s;
+    }
+
+    .instructions.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .scene {
+      width: 370px;
+      height: 580px;
+      position: relative;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 1s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    .card.open {
+      transform: rotateY(-160deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Front of the card (closed) */
+    .front {
+      background: linear-gradient(145deg, #ff6b6b, #ee5a24, #c0392b);
+      color: white;
+      z-index: 2;
+    }
+
+    .front::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .front-content {
+      text-align: center;
+      z-index: 1;
+      padding: 20px;
+    }
+
+    .front h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .front .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      font-weight: 400;
+    }
+
+    .cake {
+      font-size: 4.5rem;
+      margin: 1.2rem 0;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .click-hint {
+      position: absolute;
+      bottom: 28px;
+      font-size: 0.85rem;
+      opacity: 0.75;
+      letter-spacing: 0.05em;
+    }
+
+    /* Inside of the card */
+    .inside {
+      background: linear-gradient(160deg, #fff9f0 0%, #ffeaa7 40%, #fdcb6e 100%);
+      color: #2d3436;
+      transform: rotateY(180deg);
+      z-index: 1;
+    }
+
+    .inside::before {
+      content: '';
+      position: absolute;
+      inset: 14px;
+      border: 2px dashed rgba(214, 48, 49, 0.35);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .inside-content {
+      text-align: center;
+      padding: 16px 14px 18px;
+      z-index: 1;
+      height: 100%;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .inside .polish {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #d63031;
+      margin-bottom: 0.2rem;
+      flex-shrink: 0;
+    }
+
+    .inside .nickname {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #6c5ce7;
+      margin-bottom: 0.45rem;
+      font-style: italic;
+      flex-shrink: 0;
+    }
+
+    .inside .message {
+      font-size: 0.76rem;
+      color: #2d3436;
+      line-height: 1.35;
+      max-width: 310px;
+      margin: 0 auto 0.4rem;
+    }
+
+    .inside .poem {
+      font-size: 0.7rem;
+      color: #2d3436;
+      line-height: 1.38;
+      max-width: 310px;
+      margin: 0.5rem auto 0.4rem;
+      font-style: italic;
+      border-top: 1px dashed rgba(214, 48, 49, 0.3);
+      padding-top: 0.5rem;
+      white-space: pre-line;
+    }
+
+    .inside .sign-off {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e84393;
+      margin-top: 0.25rem;
+      flex-shrink: 0;
+    }
+
+    .balloons {
+      font-size: 1.35rem;
+      letter-spacing: 0.2em;
+      margin: 0.3rem 0;
+      flex-shrink: 0;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      opacity: 0;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .confetti.show {
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(720deg);
+      }
+    }
+
+    /* Decorative dots on front */
+    .dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .dot:nth-child(1) { top: 40px; left: 40px; }
+    .dot:nth-child(2) { top: 50px; right: 50px; width: 8px; height: 8px; }
+    .dot:nth-child(3) { bottom: 80px; left: 30px; width: 10px; height: 10px; }
+    .dot:nth-child(4) { bottom: 60px; right: 40px; }
+  </style>
+</head>
+<body>
+  <p class="instructions" id="instructions">Click the card to open it ✨</p>
+
+  <div class="scene" id="scene">
+    <div class="card" id="card">
+      <!-- Front -->
+      <div class="card-face front">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="front-content">
+          <h1>Happy<br>Birthday</h1>
+          <div class="cake">🎂</div>
+          <p class="subtitle">For someone special</p>
+          <p class="click-hint">Click to open →</p>
+        </div>
+      </div>
+
+      <!-- Inside -->
+      <div class="card-face inside">
+        <div class="inside-content">
+          <p class="polish">Wszystkiego najlepszego, Damian!</p>
+          <p class="nickname">My Greek god ✨</p>
+          <p class="message">
+            You're not getting older, you're just becoming a classic. Like dad jokes 😜<br><br>
+            Sometimes I don't get you like you don't get my jokes but you make me smile even when you explain it to me 😋<br><br>
+            I'm lucky to find you. You are the smartest mind with the dumbest eyes that you don't know I'm your one willow wish.<br><br>
+            I am obsessed with you and I like when you take control of me knowing I submitted to you, my kind.<br>
+            Nah — you are my Amazon 😋 and my King 👑
+          </p>
+          <div class="poem">My Greek god with the softest eyes,
+You hold the smartest mind, yet somehow miss
+That I am your one quiet willow wish —
+The secret that lights up behind the skies.
+
+I’m lucky — wildly, fully, endlessly —
+To have found the one who takes control of me.
+I submitted, gladly, to your kindest reign;
+You are my Amazon, my King, my everything.
+
+Obsessed is just a gentle word for this:
+The way I melt when you are near,
+The way your voice becomes my favourite place,
+The way your heart already lives right here.</div>
+          <div class="balloons">🎈🎉🎂</div>
+          <p class="sign-off">Love you ~ Mahi</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById('card');
+    const scene = document.getElementById('scene');
+    const instructions = document.getElementById('instructions');
+    let isOpen = false;
+
+    function createConfetti() {
+      const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#01a3a4'];
+      for (let i = 0; i < 60; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = (Math.random() * 8 + 6) + 'px';
+        confetti.style.height = (Math.random() * 8 + 6) + 'px';
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+        document.body.appendChild(confetti);
+        // Force reflow then add show class
+        confetti.offsetHeight;
+        confetti.classList.add('show');
+        setTimeout(() => confetti.remove(), 4000);
+      }
+    }
+
+    scene.addEventListener('click', () => {
+      isOpen = !isOpen;
+      card.classList.toggle('open', isOpen);
+      instructions.classList.toggle('hidden', isOpen);
+      if (isOpen) {
+        createConfetti();
+      }
+    });
+  </script>
+</body>
+</html>
