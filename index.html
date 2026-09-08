@@ -1,282 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday Damian 🎉</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Damian — A Legendary Pull</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      overflow: hidden;
-      perspective: 1200px;
-    }
+  :root{
+    --gold-hi: #f6dfa0;
+    --gold: #cba135;
+    --gold-dark: #7a5c1e;
+    --frame-black: #14100a;
+    --frame-brown: #2a1f13;
+    --parchment: #f4ecd8;
+    --parchment-dark: #e8dcc0;
+    --ink: #241a10;
+    --ink-soft: #4a3a24;
+    --ruby: #9c2b3a;
+    --void-blue: #10131f;
+    --void-blue-2: #1c2540;
+  }
 
-    .instructions {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.05em;
-      transition: opacity 0.4s;
-    }
+  *{ margin:0; padding:0; box-sizing:border-box; }
 
-    .instructions.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
+  body{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background:
+      radial-gradient(ellipse at 50% 20%, #262038 0%, #100c1a 55%, #05040a 100%);
+    font-family:'EB Garamond', serif;
+    overflow:hidden;
+    perspective:1400px;
+    padding:20px;
+  }
 
-    .scene {
-      width: 370px;
-      height: 580px;
-      position: relative;
-      transform-style: preserve-3d;
-      cursor: pointer;
-    }
+  /* faint arcane starfield */
+  body::before{
+    content:'';
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(246,223,160,.5) 0, transparent 60%),
+      radial-gradient(1px 1px at 80% 30%, rgba(246,223,160,.4) 0, transparent 60%),
+      radial-gradient(1.5px 1.5px at 60% 70%, rgba(246,223,160,.5) 0, transparent 60%),
+      radial-gradient(1px 1px at 30% 85%, rgba(246,223,160,.35) 0, transparent 60%),
+      radial-gradient(1px 1px at 90% 80%, rgba(246,223,160,.4) 0, transparent 60%);
+    pointer-events:none;
+  }
 
-    .card {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 1s cubic-bezier(0.4, 0.0, 0.2, 1);
-    }
+  .instructions{
+    color: var(--gold-hi);
+    font-family:'Cinzel', serif;
+    font-size:0.8rem;
+    letter-spacing:0.18em;
+    margin-bottom:1.4rem;
+    text-transform:uppercase;
+    opacity:0.75;
+    transition:opacity 0.4s;
+  }
+  .instructions.hidden{ opacity:0; pointer-events:none; }
 
-    .card.open {
-      transform: rotateY(-160deg);
-    }
+  .scene{
+    width:320px;
+    height:448px;
+    position:relative;
+    transform-style:preserve-3d;
+    cursor:pointer;
+  }
 
-    .card-face {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 12px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+  .card{
+    width:100%; height:100%;
+    position:relative;
+    transform-style:preserve-3d;
+    transition:transform 1.1s cubic-bezier(0.4,0.0,0.2,1);
+  }
+  .card.open{ transform:rotateY(-180deg); }
 
-    /* Front of the card (closed) */
-    .front {
-      background: linear-gradient(145deg, #ff6b6b, #ee5a24, #c0392b);
-      color: white;
-      z-index: 2;
-    }
+  .card-face{
+    position:absolute;
+    width:100%; height:100%;
+    backface-visibility:hidden;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 25px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(203,161,53,0.15);
+  }
 
-    .front::before {
-      content: '';
-      position: absolute;
-      inset: 12px;
-      border: 2px solid rgba(255, 255, 255, 0.35);
-      border-radius: 8px;
-      pointer-events: none;
-    }
+  /* ============ CARD BACK (closed state) ============ */
+  .back{
+    z-index:2;
+    background:
+      radial-gradient(circle at 50% 50%, var(--void-blue-2) 0%, var(--void-blue) 70%);
+    border:10px solid var(--frame-black);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .back-emblem{
+    position:relative;
+    width:210px; height:210px;
+    border-radius:50%;
+    border:2px solid var(--gold);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 30px rgba(203,161,53,0.25), inset 0 0 25px rgba(203,161,53,0.15);
+  }
+  .back-emblem::before,
+  .back-emblem::after{
+    content:'';
+    position:absolute;
+    border-radius:50%;
+    border:1px solid rgba(203,161,53,0.35);
+  }
+  .back-emblem::before{ inset:18px; }
+  .back-emblem::after{ inset:36px; border-style:dashed; }
+  .back-mana{
+    font-family:'Cinzel', serif;
+    font-size:2.6rem;
+    color:var(--gold-hi);
+    text-shadow:0 0 18px rgba(246,223,160,0.6);
+  }
+  .back-title{
+    position:absolute;
+    top:34px;
+    font-family:'Cinzel', serif;
+    color:var(--gold-hi);
+    font-size:0.72rem;
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    opacity:0.85;
+  }
+  .back-sub{
+    position:absolute;
+    bottom:34px;
+    font-family:'Cinzel', serif;
+    color:rgba(246,223,160,0.55);
+    font-size:0.62rem;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+  }
+  .back-rarity-row{
+    position:absolute;
+    bottom:14px;
+    display:flex;
+    gap:6px;
+  }
+  .back-rarity-row span{
+    width:5px; height:5px; border-radius:50%;
+    background:var(--gold);
+    opacity:0.6;
+  }
 
-    .front-content {
-      text-align: center;
-      z-index: 1;
-      padding: 20px;
-    }
+  /* ============ CARD FRONT (revealed state) ============ */
+  .front{
+    transform:rotateY(180deg);
+    background:linear-gradient(160deg, #d8b45e 0%, #cba135 35%, #8f6a1f 100%);
+    border:10px solid var(--frame-black);
+    padding:8px;
+    display:flex;
+    flex-direction:column;
+  }
+  .front-inner{
+    flex:1;
+    background:linear-gradient(160deg, #e8cd85, #cba135 60%, #a67c25);
+    border-radius:4px;
+    border:1px solid rgba(20,16,10,0.5);
+    display:flex;
+    flex-direction:column;
+    padding:7px;
+    gap:6px;
+  }
 
-    .front h1 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    }
+  .title-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:linear-gradient(180deg, #f6dfa0, #cba135);
+    border:1px solid var(--frame-black);
+    border-radius:3px;
+    padding:4px 8px;
+  }
+  .title-bar h1{
+    font-family:'Cinzel', serif;
+    font-weight:700;
+    font-size:0.86rem;
+    color:var(--frame-black);
+    letter-spacing:0.01em;
+  }
+  .mana-cost{
+    display:flex;
+    gap:3px;
+    flex-shrink:0;
+  }
+  .mana-pip{
+    width:16px; height:16px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.6rem;
+    font-family:'Cinzel', serif;
+    font-weight:700;
+    color:var(--frame-black);
+    border:1px solid rgba(20,16,10,0.6);
+  }
+  .mana-pip.g{ background:radial-gradient(circle at 30% 30%, #f6dfa0, #cba135); }
 
-    .front .subtitle {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      font-weight: 400;
-    }
+  .art-box{
+    position:relative;
+    height:112px;
+    border:1px solid var(--frame-black);
+    border-radius:2px;
+    background:
+      radial-gradient(circle at 50% 30%, #3a2f5c 0%, #1c1533 60%, #100c1a 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .art-box .cake{
+    font-size:3.6rem;
+    filter:drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+    animation:bounce 2.4s ease-in-out infinite;
+    z-index:2;
+  }
+  .art-sparkle{
+    position:absolute;
+    color:rgba(246,223,160,0.65);
+    font-size:0.7rem;
+  }
+  .art-sparkle.s1{ top:14px; left:22px; }
+  .art-sparkle.s2{ top:20px; right:26px; font-size:0.5rem; }
+  .art-sparkle.s3{ bottom:16px; left:34px; font-size:0.55rem; }
+  .art-sparkle.s4{ bottom:20px; right:20px; }
 
-    .cake {
-      font-size: 4.5rem;
-      margin: 1.2rem 0;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
-      animation: bounce 2s ease-in-out infinite;
-    }
+  @keyframes bounce{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
+  .type-line{
+    background:linear-gradient(180deg, #f6dfa0, #cba135);
+    border:1px solid var(--frame-black);
+    border-radius:3px;
+    padding:3px 8px;
+    font-family:'Cinzel', serif;
+    font-size:0.6rem;
+    font-weight:600;
+    color:var(--frame-black);
+    letter-spacing:0.02em;
+    flex-shrink:0;
+  }
 
-    .click-hint {
-      position: absolute;
-      bottom: 28px;
-      font-size: 0.85rem;
-      opacity: 0.75;
-      letter-spacing: 0.05em;
-    }
+  .text-box{
+    flex:1;
+    background:var(--parchment);
+    border:1px solid var(--frame-black);
+    border-radius:2px;
+    padding:8px 9px 6px;
+    display:flex;
+    flex-direction:column;
+    overflow-y:auto;
+    min-height:0;
+  }
 
-    /* Inside of the card */
-    .inside {
-      background: linear-gradient(160deg, #fff9f0 0%, #ffeaa7 40%, #fdcb6e 100%);
-      color: #2d3436;
-      transform: rotateY(180deg);
-      z-index: 1;
-    }
+  .ability{
+    font-size:0.66rem;
+    line-height:1.35;
+    color:var(--ink);
+    margin-bottom:5px;
+  }
+  .ability b{ color:var(--ruby); font-weight:600; }
 
-    .inside::before {
-      content: '';
-      position: absolute;
-      inset: 14px;
-      border: 2px dashed rgba(214, 48, 49, 0.35);
-      border-radius: 8px;
-      pointer-events: none;
-    }
+  .flavor{
+    font-style:italic;
+    font-size:0.6rem;
+    line-height:1.42;
+    color:var(--ink-soft);
+    white-space:pre-line;
+    border-top:1px solid rgba(122,92,30,0.35);
+    padding-top:5px;
+    margin-top:auto;
+  }
 
-    .inside-content {
-      text-align: center;
-      padding: 16px 14px 18px;
-      z-index: 1;
-      height: 100%;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
+  .bottom-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-shrink:0;
+    padding:1px 3px 0;
+  }
+  .set-info{
+    font-family:'EB Garamond', serif;
+    font-size:0.5rem;
+    color:rgba(20,16,10,0.75);
+    letter-spacing:0.02em;
+  }
+  .pt-box{
+    background:linear-gradient(180deg, #f6dfa0, #cba135);
+    border:1px solid var(--frame-black);
+    border-radius:3px;
+    padding:2px 9px;
+    font-family:'Cinzel', serif;
+    font-size:0.72rem;
+    font-weight:700;
+    color:var(--frame-black);
+  }
 
-    .inside .polish {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #d63031;
-      margin-bottom: 0.2rem;
-      flex-shrink: 0;
-    }
-
-    .inside .nickname {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #6c5ce7;
-      margin-bottom: 0.45rem;
-      font-style: italic;
-      flex-shrink: 0;
-    }
-
-    .inside .message {
-      font-size: 0.76rem;
-      color: #2d3436;
-      line-height: 1.35;
-      max-width: 310px;
-      margin: 0 auto 0.4rem;
-    }
-
-    .inside .poem {
-      font-size: 0.7rem;
-      color: #2d3436;
-      line-height: 1.38;
-      max-width: 310px;
-      margin: 0.5rem auto 0.4rem;
-      font-style: italic;
-      border-top: 1px dashed rgba(214, 48, 49, 0.3);
-      padding-top: 0.5rem;
-      white-space: pre-line;
-    }
-
-    .inside .sign-off {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #e84393;
-      margin-top: 0.25rem;
-      flex-shrink: 0;
-    }
-
-    .balloons {
-      font-size: 1.35rem;
-      letter-spacing: 0.2em;
-      margin: 0.3rem 0;
-      flex-shrink: 0;
-    }
-
-    .confetti {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      top: -10px;
-      opacity: 0;
-      z-index: 100;
-      pointer-events: none;
-    }
-
-    .confetti.show {
-      animation: fall linear forwards;
-    }
-
-    @keyframes fall {
-      0% {
-        opacity: 1;
-        transform: translateY(0) rotate(0deg);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(100vh) rotate(720deg);
-      }
-    }
-
-    /* Decorative dots on front */
-    .dot {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.25);
-    }
-    .dot:nth-child(1) { top: 40px; left: 40px; }
-    .dot:nth-child(2) { top: 50px; right: 50px; width: 8px; height: 8px; }
-    .dot:nth-child(3) { bottom: 80px; left: 30px; width: 10px; height: 10px; }
-    .dot:nth-child(4) { bottom: 60px; right: 40px; }
-  </style>
+  .confetti{
+    position:fixed;
+    width:8px; height:8px;
+    top:-10px;
+    opacity:0;
+    z-index:100;
+    pointer-events:none;
+  }
+  .confetti.show{ animation:fall linear forwards; }
+  @keyframes fall{
+    0%{ opacity:1; transform:translateY(0) rotate(0deg); }
+    100%{ opacity:0; transform:translateY(100vh) rotate(720deg); }
+  }
+</style>
 </head>
 <body>
-  <p class="instructions" id="instructions">Click the card to open it ✨</p>
+  <p class="instructions" id="instructions">Tap the card to flip it face up</p>
 
   <div class="scene" id="scene">
     <div class="card" id="card">
-      <!-- Front -->
-      <div class="card-face front">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="front-content">
-          <h1>Happy<br>Birthday</h1>
-          <div class="cake">🎂</div>
-          <p class="subtitle">For someone special</p>
-          <p class="click-hint">Click to open →</p>
+
+      <!-- CARD BACK (closed) -->
+      <div class="card-face back">
+        <p class="back-title">Birthday Set</p>
+        <div class="back-emblem">
+          <span class="back-mana">🎂</span>
         </div>
+        <p class="back-sub">Tap to Reveal</p>
+        <div class="back-rarity-row"><span></span><span></span><span></span></div>
       </div>
 
-      <!-- Inside -->
-      <div class="card-face inside">
-        <div class="inside-content">
-          <p class="polish">Wszystkiego najlepszego, Damian!</p>
-          <p class="nickname">My Greek god ✨</p>
-          
-          <div class="poem">My Greek god with the softest eyes,
+      <!-- CARD FRONT (revealed) -->
+      <div class="card-face front">
+        <div class="front-inner">
+
+          <div class="title-bar">
+            <h1>Damian, the Unforgettable</h1>
+            <div class="mana-cost">
+              <div class="mana-pip g">✦</div>
+              <div class="mana-pip g">✦</div>
+              <div class="mana-pip g">✦</div>
+            </div>
+          </div>
+
+          <div class="art-box">
+            <span class="art-sparkle s1">✦</span>
+            <span class="art-sparkle s2">✧</span>
+            <span class="art-sparkle s3">✧</span>
+            <span class="art-sparkle s4">✦</span>
+            <span class="cake">🎂</span>
+          </div>
+
+          <div class="type-line">Legendary Creature — Greek God Boyfriend</div>
+
+          <div class="text-box">
+            <p class="ability"><b>Wszystkiego najlepszego, Damian!</b> Whenever it is your birthday, all who know you must acknowledge: you are her Greek god, her Amazon, her King, her everything.</p>
+            <p class="ability">🎈🎉🎂 — <b>My Greek god ✨</b></p>
+            <p class="flavor">My Greek god with the softest eyes,
 You hold the smartest mind, yet somehow miss
 That I am your one quiet willow wish —
 The secret that lights up behind the skies.
 
-I’m lucky — wildly, fully, endlessly —
+I'm lucky — wildly, fully, endlessly —
 To have found the one who takes control of me.
 I submitted, gladly, to your kindest reign;
 You are my Amazon, my King, my everything.
@@ -284,11 +378,17 @@ You are my Amazon, my King, my everything.
 Obsessed is just a gentle word for this:
 The way I melt when you are near,
 The way your voice becomes my favourite place,
-The way your heart already lives right here.</div>
-          <div class="balloons">🎈🎉🎂</div>
-          <p class="sign-off">Love you ~ Mahi</p>
+The way your heart already lives right here.</p>
+          </div>
+
+          <div class="bottom-row">
+            <span class="set-info">Love you ~ Mahi</span>
+            <div class="pt-box">❤️ / ♾️</div>
+          </div>
+
         </div>
       </div>
+
     </div>
   </div>
 
@@ -299,19 +399,18 @@ The way your heart already lives right here.</div>
     let isOpen = false;
 
     function createConfetti() {
-      const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#01a3a4'];
-      for (let i = 0; i < 60; i++) {
+      const colors = ['#cba135', '#f6dfa0', '#9c2b3a', '#3a2f5c', '#e8dcc0'];
+      for (let i = 0; i < 55; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
         confetti.style.left = Math.random() * 100 + 'vw';
         confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.width = (Math.random() * 8 + 6) + 'px';
-        confetti.style.height = (Math.random() * 8 + 6) + 'px';
+        confetti.style.width = (Math.random() * 7 + 5) + 'px';
+        confetti.style.height = confetti.style.width;
         confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
         confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
         confetti.style.animationDelay = (Math.random() * 0.5) + 's';
         document.body.appendChild(confetti);
-        // Force reflow then add show class
         confetti.offsetHeight;
         confetti.classList.add('show');
         setTimeout(() => confetti.remove(), 4000);
@@ -322,9 +421,7 @@ The way your heart already lives right here.</div>
       isOpen = !isOpen;
       card.classList.toggle('open', isOpen);
       instructions.classList.toggle('hidden', isOpen);
-      if (isOpen) {
-        createConfetti();
-      }
+      if (isOpen) createConfetti();
     });
   </script>
 </body>
